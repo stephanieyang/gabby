@@ -1,0 +1,42 @@
+import time
+import numpy as np
+import cv2
+import os
+import subprocess
+import datetime 
+
+cap = cv2.VideoCapture(0)
+captured = False
+time.sleep(1)
+while(not captured):
+    # Capture frame-by-frame
+    ret, frame = cap.read()
+
+
+    # Display the resulting frame
+    cv2.imwrite('test.png',frame)
+    break
+
+# When everything done, release the capture
+cap.release()
+cv2.destroyAllWindows()
+
+timestamp = datetime.datetime.now()
+
+os.system("python -m scripts.label_image --graph=tf_files/retrained_graph.pb --image=./test.png > output.txt")
+
+with open('output.txt') as f:
+    content = f.readlines()
+# you may also want to remove whitespace characters like `\n` at the end of each line
+f.close()
+content = [x.strip() for x in content] 
+
+print content[3]
+
+
+ALU 0
+CBD 0
+GLS 0
+PAP 0
+PTB 0
+~       
